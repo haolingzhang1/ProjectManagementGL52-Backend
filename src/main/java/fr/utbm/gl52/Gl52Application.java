@@ -9,6 +9,6 @@ public class Gl52Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Gl52Application.class, args);
 	}
-
+//test
 
 }
