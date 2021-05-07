@@ -10,4 +10,5 @@ public class Gl52Application {
 		SpringApplication.run(Gl52Application.class, args);
 	}
 
+
 }
