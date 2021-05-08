@@ -10,4 +10,8 @@ class Gl52ApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void entityTest(){
+		System.out.println();
+	}
 }
