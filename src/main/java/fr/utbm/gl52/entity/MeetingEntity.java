@@ -29,9 +29,51 @@ public class MeetingEntity implements Serializable {
     @Column(name = "MEETING_END", nullable = false)
     private Date meetingEnd ;
 
-    @Column(name = "PROJECT_ID", nullable = false)
+    @Column(name = "PROJECT_ID")
     private Long projectId;
 
+    @Column(name = "SUPERVISOR_ID")
+    private Long supervisorId;
+
+    public Long getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(Long supervisorId) {
+        this.supervisorId = supervisorId;
+    }
+
+    public Long getMeetingId() {
+        return meetingId;
+    }
+
+    public void setMeetingId(Long meetingId) {
+        this.meetingId = meetingId;
+    }
+
+    public Date getMeetingStart() {
+        return meetingStart;
+    }
+
+    public void setMeetingStart(Date meetingStart) {
+        this.meetingStart = meetingStart;
+    }
+
+    public Date getMeetingEnd() {
+        return meetingEnd;
+    }
+
+    public void setMeetingEnd(Date meetingEnd) {
+        this.meetingEnd = meetingEnd;
+    }
+
+    public Long getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
 
 //
 //    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
