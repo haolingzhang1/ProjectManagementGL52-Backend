@@ -26,8 +26,29 @@ public class SubjectEntity implements Serializable {
     @Column(name = "SUBJECT_DESCRIPTION", nullable = false)
     private String subjectDescription;
 
+    public String getSubjectName() {
+        return subjectName;
+    }
 
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
+    }
 
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getSubjectDescription() {
+        return subjectDescription;
+    }
+
+    public void setSubjectDescription(String subjectDescription) {
+        this.subjectDescription = subjectDescription;
+    }
 //    @OneToMany(mappedBy = "projectId",cascade= CascadeType.ALL,fetch= FetchType.LAZY)
 //    private List<ProjectEntity> projectList;
 //

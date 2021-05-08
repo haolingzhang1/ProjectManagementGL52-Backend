@@ -27,7 +27,7 @@ public class ProjectEntity implements Serializable {
     @Column(name = "PROJECT_ID", nullable = false)
     private Long projectId;
 
-    @Column(name = "PROJECT_TITLE", nullable = false)
+    @Column(name = "PROJECT_TITLE")
     private String projectTitle;
 
     @Column(name = "PROJECT_GRADE")
@@ -42,7 +42,53 @@ public class ProjectEntity implements Serializable {
     @Column(name = "SUPERVISOR_ID")
     private Long supervisorId;
 
+    public Long getProjectId() {
+        return projectId;
+    }
 
+    public void setProjectId(Long projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectTitle() {
+        return projectTitle;
+    }
+
+    public void setProjectTitle(String projectTitle) {
+        this.projectTitle = projectTitle;
+    }
+
+    public Long getProjectGrade() {
+        return projectGrade;
+    }
+
+    public void setProjectGrade(Long projectGrade) {
+        this.projectGrade = projectGrade;
+    }
+
+    public String getProjectComments() {
+        return projectComments;
+    }
+
+    public void setProjectComments(String projectComments) {
+        this.projectComments = projectComments;
+    }
+
+    public Long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Long subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public Long getSupervisorId() {
+        return supervisorId;
+    }
+
+    public void setSupervisorId(Long supervisorId) {
+        this.supervisorId = supervisorId;
+    }
 
 //    @ManyToOne(cascade={CascadeType.MERGE,CascadeType.REFRESH},optional=false)
 //    @JoinColumn(name="SUPERVISOR_ID")//only when the user type is teacher

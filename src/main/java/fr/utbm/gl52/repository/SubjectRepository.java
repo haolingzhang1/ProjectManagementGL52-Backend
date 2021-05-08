@@ -15,6 +15,8 @@ public interface SubjectRepository extends JpaRepository<SubjectEntity, Long>, J
     @Query(value = "select * from SUBJECT where SUBJECT_NAME = ?1", nativeQuery = true)
     List<SubjectEntity> findSubjectByName(String subjectName);
 
+    @Query(value = "select * from SUBJECT ", nativeQuery = true)
+    List<SubjectEntity> searchSujbects();
 
 
 }
