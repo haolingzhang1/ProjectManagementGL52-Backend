@@ -1,9 +1,7 @@
 package fr.utbm.gl52.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import fr.utbm.gl52.entity.MeetingEntity;
 import fr.utbm.gl52.entity.ResultEntity;
-import fr.utbm.gl52.entity.SubjectEntity;
 import fr.utbm.gl52.repository.MeetingRepository;
 import fr.utbm.gl52.utils.BaseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
