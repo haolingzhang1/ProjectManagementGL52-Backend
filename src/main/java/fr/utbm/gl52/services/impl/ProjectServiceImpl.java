@@ -19,6 +19,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectEntity checkGroup(Long supervisorId, Long projectId) {
         ProjectEntity project=projectRepository.findById(projectId).get();
         project.setSupervisorId(supervisorId);
+        projectRepository.save(project);
         return project;
     }
 
@@ -26,6 +27,7 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectEntity chooseSubject(Long subjectId, Long projectId) {
         ProjectEntity project=projectRepository.findById(projectId).get();
         project.setSubjectId(subjectId);
+        projectRepository.save(project);
         return project;
     }
 
@@ -33,6 +35,22 @@ public class ProjectServiceImpl implements ProjectService {
     public ProjectEntity refuseSubject(Long projectId) {
         ProjectEntity project=projectRepository.findById(projectId).get();
         project.setSubjectId(0L);
+        projectRepository.save(project);
+        return project;
+    }
+
+    @Override
+    public ProjectEntity addEvaluation(Long projectId, Long grade, String comments) {
+        ProjectEntity project=projectRepository.findById(projectId).get();
+        project.setProjectGrade(grade);
+        project.setProjectComments(comments);
+        projectRepository.save(project);
+        return project;
+    }
+
+    @Override
+    public ProjectEntity consulterEvaluation(Long projectId) {
+        ProjectEntity project=projectRepository.findById(projectId).get();
         return project;
     }
 

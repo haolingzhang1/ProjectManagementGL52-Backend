@@ -8,6 +8,6 @@ public interface ProjectService {
     public ProjectEntity checkGroup(Long supervisorId, Long projectId);
     public ProjectEntity chooseSubject(Long subjectId, Long projectId);
     public ProjectEntity refuseSubject(Long projectId);
-
-
+    public ProjectEntity addEvaluation(Long projectId,Long grade,String comments);
+    public ProjectEntity consulterEvaluation(Long projectId);
 }
