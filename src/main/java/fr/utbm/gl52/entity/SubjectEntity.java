@@ -1,9 +1,18 @@
 package fr.utbm.gl52.entity;
 
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@Getter
+@Setter
+@Data
+@Entity
+@Table(name = "SUBJECT")
 public class SubjectEntity implements Serializable {
 
     @Id
@@ -18,7 +27,12 @@ public class SubjectEntity implements Serializable {
     private String subjectDescription;
 
 
-    @OneToMany(mappedBy = "PROJECT",cascade= CascadeType.ALL,fetch= FetchType.LAZY)
-    private List<ProjectEntity> projectList;
 
+//    @OneToMany(mappedBy = "projectId",cascade= CascadeType.ALL,fetch= FetchType.LAZY)
+//    private List<ProjectEntity> projectList;
+//
+//    @Override
+//    public String toString(){
+//        return "subject id is: "+subjectId+" name is: "+subjectName+" description: "+subjectDescription;
+//    }
 }
