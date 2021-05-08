@@ -10,4 +10,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+
+    @Override
+    public String getUserPasswordByEmail(String userEmail) {
+        return userRepository.getUserPasswordByEmail(userEmail);
+    }
 }
