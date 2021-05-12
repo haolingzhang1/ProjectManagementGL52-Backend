@@ -37,7 +37,7 @@ public class UserEntity implements Serializable {
     @Column(name = "USER_TYPE", nullable = false)
     private String type;
 
-    @Column(name = "PREOJCT_ID")
+    @Column(name = "PROJECT_ID")
     private Long projectId;
 
     public Long getProjectId() {
