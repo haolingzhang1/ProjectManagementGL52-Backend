@@ -28,18 +28,18 @@ public class LoginController {
             String compte=request.getParameter("compte");
             String password=request.getParameter("password");
             if(password.isEmpty()||compte.isEmpty()){
-                return BaseResultUtil.resSuccess("please enter both compte and password!");
+                return BaseResultUtil.resSuccess("please enter both compte and password!",null);
             }
             String b_password= userService.getUserPasswordByEmail(compte);
             UserEntity user=userService.getUserByEmail(compte);
             String a_password= Md5Util.convertMD5(password);
             if(a_password.equals(b_password)) {
-                return BaseResultUtil.resSuccess("successful log in! "+user.getType());
+                return BaseResultUtil.resSuccess("successful log in! ",user.getType());
             }else{
-                return BaseResultUtil.resSuccess("wrong password !");
+                return BaseResultUtil.resSuccess("wrong password !",null);
             }
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to log in！"+e.getMessage());
+            return BaseResultUtil.resFailed("failed to log in！",e.getMessage());
         }
     }
 }

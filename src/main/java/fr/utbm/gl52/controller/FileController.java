@@ -36,7 +36,7 @@ public class FileController {
     DocumentService documentService;
 
     @RequestMapping("/upload")
-    public String upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
+    public ResultEntity upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
                          @RequestParam("projectId") Long projectId) throws IOException {
         if(file.isEmpty()){
             return null;
@@ -51,7 +51,7 @@ public class FileController {
 
         String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/images/download/"+fileName;
         documentRepository.save(document);
-        return  path;
+        return BaseResultUtil.resSuccess("successfully upload the file",path);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)

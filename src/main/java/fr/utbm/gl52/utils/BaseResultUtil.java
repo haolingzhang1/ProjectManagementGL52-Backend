@@ -10,9 +10,9 @@ public class BaseResultUtil {
          * @param data
          * @return
          */
-        public static ResultEntity resSuccess(Object data){
+        public static ResultEntity resSuccess(String message,Object data){
             ResultEntity result = new ResultEntity();
-            result.setStatus(10000);
+            result.setMessage(message);
             result.setSuccess(true);
             result.setData(data);
             return result;
@@ -23,9 +23,9 @@ public class BaseResultUtil {
          * @param data
          * @return
          */
-        public static ResultEntity resFailed(Object data){
+        public static ResultEntity resFailed(String message,Object data){
             ResultEntity result = new ResultEntity();
-            result.setStatus(10001);
+            result.setMessage(message);
             result.setSuccess(false);
             result.setData(data);
             return result;
@@ -36,9 +36,10 @@ public class BaseResultUtil {
          * @param data
          * @return
          */
-        public static ResultEntity resNetError(Object data){
+        public static ResultEntity resNetError(String message,Object data){
             ResultEntity result = new ResultEntity();
-            result.setStatus(304);
+           // result.setStatus(304);
+            result.setMessage(message);
             result.setSuccess(false);
             result.setData(data);
             return result;

@@ -35,9 +35,9 @@ public class SubjectController {
             String subjectName = jsonParams.getString("subjectName");
             String subjectDescrption = jsonParams.getString("subjectDescription");
             subjectEntity=subjectService.createSubject(subjectName, subjectDescrption);
-            return BaseResultUtil.resSuccess("successfully create a subject "+subjectEntity);
+            return BaseResultUtil.resSuccess("successfully create a subject " , subjectEntity);
         } catch (Exception e) {
-            return BaseResultUtil.resFailed("failed to create a subject！" + e.getMessage());
+            return BaseResultUtil.resFailed("failed to create a subject！" , e.getMessage());
         }
     }
 
@@ -46,9 +46,9 @@ public class SubjectController {
     public ResultEntity searchSubjectLists() {
         try {
            List<SubjectEntity> subjectLists= subjectService.searchSujbects();
-            return BaseResultUtil.resSuccess(subjectLists);
+            return BaseResultUtil.resSuccess("successfully search the subjects! ",subjectLists);
         } catch (Exception e) {
-            return BaseResultUtil.resFailed("failed to find list of subjects！" + e.getMessage());
+            return BaseResultUtil.resFailed("failed to find list of subjects！" , e.getMessage());
         }
     }
 
@@ -57,9 +57,9 @@ public class SubjectController {
                                    @RequestParam("projectId") Long projectId){
         try{
             ProjectEntity project= projectService.chooseSubject(subjectId,projectId);
-            return BaseResultUtil.resSuccess("successfully choose the subject"+project);
+            return BaseResultUtil.resSuccess("successfully choose the subject ",project);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to choose the subject！");
+            return BaseResultUtil.resFailed("failed to choose the subject！",null);
         }
     }
 
@@ -68,12 +68,12 @@ public class SubjectController {
                                      @RequestParam("check") String check){
         try{
             if(check.equals("true")){
-                return BaseResultUtil.resSuccess("successfully validate the subject");
+                return BaseResultUtil.resSuccess("successfully validate the subject",null);
             }
             ProjectEntity project= projectService.refuseSubject(projectId);
-            return BaseResultUtil.resSuccess("successfully refuses the subject"+project);
+            return BaseResultUtil.resSuccess("successfully refuses the subject ", project);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed for this operation！");
+            return BaseResultUtil.resFailed("failed for this operation！",null);
         }
     }
 }

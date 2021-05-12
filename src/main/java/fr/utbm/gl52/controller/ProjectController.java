@@ -39,9 +39,9 @@ public class ProjectController {
                 UserEntity user = userService.getUserByEmail(email);
                 user.setProjectId(project.getProjectId());
             }
-            return BaseResultUtil.resSuccess("successfully create a group in project " + project);
+            return BaseResultUtil.resSuccess("successfully create a group in project " , project);
         } catch (Exception e) {
-            return BaseResultUtil.resFailed("failed to create a group！" + e.getMessage());
+            return BaseResultUtil.resFailed("failed to create a group！" , e.getMessage());
         }
     }
 
@@ -50,9 +50,9 @@ public class ProjectController {
                                    @RequestParam("projectId") Long projectId){
         try{
             ProjectEntity project= projectService.checkGroup(supervisorId,projectId);
-            return BaseResultUtil.resSuccess("successfully validate the group"+project);
+            return BaseResultUtil.resSuccess("successfully validate the group", project);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to validate the group！");
+            return BaseResultUtil.resFailed("failed to validate the group！",null);
         }
     }
 }

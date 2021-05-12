@@ -28,20 +28,20 @@ public class MeetingController {
             meetingEntity.setMeetingStart(meetingStart);
             meetingEntity.setSupervisorId(supervisorId);
             meetingRepository.save(meetingEntity);
-            return BaseResultUtil.resSuccess("successfully create an available meeting time "+meetingEntity);
+            return BaseResultUtil.resSuccess("successfully create an available meeting time ",meetingEntity);
         } catch (Exception e) {
-            return BaseResultUtil.resFailed("failed to create a meeting time！" + e.getMessage());
+            return BaseResultUtil.resFailed("failed to create a meeting time！" ,e.getMessage());
         }
     }
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public ResultEntity createMeeting() {
+    public ResultEntity searchMeeting() {
         try {
 
             List<MeetingEntity> meetingLists= meetingRepository.findAll();
-            return BaseResultUtil.resSuccess(meetingLists);
+            return BaseResultUtil.resSuccess("successfully find the meetings",meetingLists);
         } catch (Exception e) {
-            return BaseResultUtil.resFailed("failed to find meetings！" + e.getMessage());
+            return BaseResultUtil.resFailed("failed to find meetings！" , e.getMessage());
         }
     }
 
@@ -52,9 +52,9 @@ public class MeetingController {
             MeetingEntity meeting= meetingRepository.findById(meetingId).get();
             meeting.setProjectId(projectId);
             meetingRepository.save(meeting);
-            return BaseResultUtil.resSuccess("successfully choose the meeting"+meeting);
+            return BaseResultUtil.resSuccess("successfully choose the meeting",meeting);
         } catch (Exception e) {
-            return BaseResultUtil.resFailed("failed to choose meetings！" + e.getMessage());
+            return BaseResultUtil.resFailed("failed to choose meetings！" , e.getMessage());
         }
     }
 }

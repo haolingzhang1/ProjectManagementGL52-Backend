@@ -21,9 +21,9 @@ public class EvaluationController {
                                       @RequestParam("projectId") Long projectId){
         try{
             ProjectEntity project= projectService.addEvaluation(projectId,grade,comments);
-            return BaseResultUtil.resSuccess("successfully add the evaluation"+project);
+            return BaseResultUtil.resSuccess("successfully add the evaluation",project);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to add the evaluation！");
+            return BaseResultUtil.resFailed("failed to add the evaluation！",null);
         }
     }
 
@@ -31,9 +31,9 @@ public class EvaluationController {
     public ResultEntity consulterEvaluation(@RequestParam("projectId") Long projectId){
         try{
             ProjectEntity project= projectService.consulterEvaluation(projectId);
-            return BaseResultUtil.resSuccess("successfully search the evaluation"+project);
+            return BaseResultUtil.resSuccess("successfully search the evaluation",project);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to search the evaluation！");
+            return BaseResultUtil.resFailed("failed to search the evaluation！",null);
         }
     }
 }
