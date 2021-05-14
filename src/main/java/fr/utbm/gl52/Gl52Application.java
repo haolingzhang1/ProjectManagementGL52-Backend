@@ -9,14 +9,23 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import javax.annotation.PostConstruct;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Date;
+import java.util.TimeZone;
 
 
 @Slf4j
 @EnableJpaAuditing
 @SpringBootApplication
 public class Gl52Application {
+
+	@PostConstruct
+	public void init(){
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT+2:00"));   // It will set UTC timezone
+		System.out.println("Spring boot application running in UTC timezone :"+new Date());   // It will print UTC timezone
+	}
 
 	public static void main(String[] args) throws UnknownHostException {
 		//SpringApplication.run(Gl52Application.class, args);
