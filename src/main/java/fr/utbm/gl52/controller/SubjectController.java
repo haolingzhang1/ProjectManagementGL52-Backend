@@ -27,14 +27,15 @@ public class SubjectController {
     ProjectService projectService;
 
     @RequestMapping(value = "/create", method = {RequestMethod.POST, RequestMethod.GET})
-    public ResultEntity createSubject(@RequestBody String subjectInfo) {
+    public ResultEntity createSubject(@RequestParam("subjectName") String subjectName,
+                                      @RequestParam("subjectDescription") String subjectDescription) {
         try {
 
             SubjectEntity subjectEntity;
-            JSONObject jsonParams = JSONObject.parseObject(subjectInfo);
-            String subjectName = jsonParams.getString("subjectName");
-            String subjectDescrption = jsonParams.getString("subjectDescription");
-            subjectEntity=subjectService.createSubject(subjectName, subjectDescrption);
+           // JSONObject jsonParams = JSONObject.parseObject(subjectInfo);
+            //String subjectName = jsonParams.getString("subjectName");
+           // String subjectDescrption = jsonParams.getString("subjectDescription");
+            subjectEntity=subjectService.createSubject(subjectName, subjectDescription);
             return BaseResultUtil.resSuccess("successfully create a subject " , subjectEntity);
         } catch (Exception e) {
             return BaseResultUtil.resFailed("failed to create a subject！" , e.getMessage());
