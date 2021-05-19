@@ -6,6 +6,8 @@ import fr.utbm.gl52.entity.ProjectEntity;
 import fr.utbm.gl52.entity.ResultEntity;
 import fr.utbm.gl52.entity.SubjectEntity;
 import fr.utbm.gl52.entity.UserEntity;
+import fr.utbm.gl52.repository.ProjectRepository;
+import fr.utbm.gl52.repository.UserRepository;
 import fr.utbm.gl52.services.ProjectService;
 import fr.utbm.gl52.services.UserService;
 import fr.utbm.gl52.utils.BaseResultUtil;
@@ -24,21 +26,30 @@ public class ProjectController {
     UserService userService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ProjectRepository projectRepository;
+
+    @Autowired
     ProjectService projectService;
 
     //add student lists to project
     @RequestMapping(value = "/createGroup", method = {RequestMethod.POST, RequestMethod.GET})
     public ResultEntity createGroup(@RequestBody String groupInfo) {
         try {
-            ProjectEntity project = new ProjectEntity();
+
             JSONObject jsonParams = JSONObject.parseObject(groupInfo);
+            Long projectId = Long.parseLong(jsonParams.getString("projectId"));
+            ProjectEntity project = projectRepository.findById(projectId).get();
             JSONArray studentLists = jsonParams.getJSONArray("email");
             //for every student, insert project id for them
             for (Object student : studentLists) {
                 String email = student.toString();
                 UserEntity user = userService.getUserByEmail(email);
                 user.setProjectId(project.getProjectId());
-            }
+                userRepository.save(user);
+                }
             return BaseResultUtil.resSuccess("successfully create a group in project " , project);
         } catch (Exception e) {
             return BaseResultUtil.resFailed("failed to create a group！" , e.getMessage());
@@ -55,4 +66,34 @@ public class ProjectController {
             return BaseResultUtil.resFailed("failed to validate the group！",null);
         }
     }
+
+    @RequestMapping(value = "/createProject", method = {RequestMethod.POST, RequestMethod.GET})
+    public ResultEntity createProject(@RequestBody String groupInfo) {
+        try {
+            ProjectEntity project = new ProjectEntity();
+            JSONObject jsonParams = JSONObject.parseObject(groupInfo);
+            JSONArray studentLists = jsonParams.getJSONArray("email");
+            String title = jsonParams.getString("title");
+            Long subjectId = Long.parseLong(jsonParams.getString("subjectId"));
+            String supervisorEmail = jsonParams.getString("supervisorEmail");
+            //for every student, insert project id for them
+            for (Object student : studentLists) {
+                String email = student.toString();
+                UserEntity user = userService.getUserByEmail(email);
+                user.setProjectId(project.getProjectId());
+                userRepository.save(user);
+
+            }
+            UserEntity supervisor = userService.getUserByEmail(supervisorEmail);
+            project.setSupervisorId(supervisor.getUserId());
+            project.setProjectTitle(title);
+            project.setSubjectId(subjectId);
+            projectRepository.save(project);
+            return BaseResultUtil.resSuccess("successfully create a group in project " , project);
+        } catch (Exception e) {
+            return BaseResultUtil.resFailed("failed to create a group！" , e.getMessage());
+        }
+    }
+
+
 }
