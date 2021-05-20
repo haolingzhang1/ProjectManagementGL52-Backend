@@ -67,7 +67,7 @@ public class ProjectController {
         }
     }
 
-    @RequestMapping(value = "/createProject", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/createProject", method = RequestMethod.POST)
     public ResultEntity createProject(@RequestBody String groupInfo) {
         try {
             ProjectEntity project = new ProjectEntity();

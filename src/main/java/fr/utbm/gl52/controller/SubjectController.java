@@ -26,7 +26,7 @@ public class SubjectController {
     @Autowired
     ProjectService projectService;
 
-    @RequestMapping(value = "/create", method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ResultEntity createSubject(@RequestParam("subjectName") String subjectName,
                                       @RequestParam("subjectDescription") String subjectDescription) {
         try {
