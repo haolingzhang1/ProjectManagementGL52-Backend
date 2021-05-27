@@ -2,8 +2,10 @@ package fr.utbm.gl52.services.impl;
 
 import fr.utbm.gl52.entity.ProjectEntity;
 import fr.utbm.gl52.repository.ProjectRepository;
+import fr.utbm.gl52.repository.WorkRepository;
 import fr.utbm.gl52.services.ProjectService;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +15,11 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     ProjectRepository projectRepository;
+
+    @Autowired
+    WorkRepository workRepository;
+
+
 
 
     @Override

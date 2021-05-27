@@ -13,7 +13,6 @@ import fr.utbm.gl52.utils.BaseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +36,10 @@ public class ProjectController {
     @Autowired
     WorkService workService;
 
+    @Autowired
+    WorkRepository workRepository;
+
+
     //add student lists to project
     @RequestMapping(value = "/createGroup", method = {RequestMethod.POST, RequestMethod.GET})
     public ResultEntity createGroup(@RequestBody String groupInfo) {
@@ -51,6 +54,10 @@ public class ProjectController {
                 String email = student.toString();
                 UserEntity user = userService.getUserByEmail(email);
                 user.setProjectId(project.getProjectId());
+                WorkEntity work = new WorkEntity();
+                work.setProjectId(project.getProjectId());
+                work.setUserId(user.getUserId());
+                workRepository.save(work);
                 userRepository.save(user);
                 }
             return BaseResultUtil.resSuccess("successfully create a group in project " , project);
@@ -100,6 +107,10 @@ public class ProjectController {
                 String email = student.toString();
                 UserEntity user = userService.getUserByEmail(email);
                 user.setProjectId(project.getProjectId());
+                WorkEntity work = new WorkEntity();
+                work.setProjectId(project.getProjectId());
+                work.setUserId(user.getUserId());
+                workRepository.save(work);
                 userRepository.save(user);
 
             }

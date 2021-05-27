@@ -1,13 +1,12 @@
 package fr.utbm.gl52.services;
 
 import fr.utbm.gl52.entity.ProjectEntity;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public interface ProjectService {
 
-    public ProjectEntity checkGroup(Long supervisorId, Long projectId);
-    public ProjectEntity chooseSubject(Long subjectId, Long projectId);
-    public ProjectEntity refuseSubject(Long projectId);
-    public ProjectEntity addEvaluation(Long projectId,Long grade,String comments);
-    public ProjectEntity consulterEvaluation(Long projectId);
+     ProjectEntity checkGroup(Long supervisorId, Long projectId);
+     ProjectEntity chooseSubject(Long subjectId, Long projectId);
+     ProjectEntity refuseSubject(Long projectId);
+     ProjectEntity addEvaluation(Long projectId,Long grade,String comments);
+     ProjectEntity consulterEvaluation(Long projectId);
 }
