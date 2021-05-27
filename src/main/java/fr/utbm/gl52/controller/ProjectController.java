@@ -2,19 +2,19 @@ package fr.utbm.gl52.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import fr.utbm.gl52.entity.ProjectEntity;
-import fr.utbm.gl52.entity.ResultEntity;
-import fr.utbm.gl52.entity.SubjectEntity;
-import fr.utbm.gl52.entity.UserEntity;
+import fr.utbm.gl52.entity.*;
 import fr.utbm.gl52.repository.ProjectRepository;
 import fr.utbm.gl52.repository.UserRepository;
+import fr.utbm.gl52.repository.WorkRepository;
 import fr.utbm.gl52.services.ProjectService;
 import fr.utbm.gl52.services.UserService;
+import fr.utbm.gl52.services.WorkService;
 import fr.utbm.gl52.utils.BaseResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.acl.Group;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -33,6 +33,9 @@ public class ProjectController {
 
     @Autowired
     ProjectService projectService;
+
+    @Autowired
+    WorkService workService;
 
     //add student lists to project
     @RequestMapping(value = "/createGroup", method = {RequestMethod.POST, RequestMethod.GET})
@@ -66,6 +69,22 @@ public class ProjectController {
             return BaseResultUtil.resFailed("failed to validate the group！",null);
         }
     }
+
+    @RequestMapping(value = "/getProjectByUser", method = RequestMethod.GET)
+    public ResultEntity getProjectByUser(@RequestParam("userId") Long userId){
+        try{
+            List<WorkEntity> works = workService.getWorkByUser(userId);
+            List<ProjectEntity> projectLists = new ArrayList<>();
+            for(WorkEntity work:works){
+               ProjectEntity project =  projectRepository.findById(work.getProjectId()).get();
+                projectLists.add(project);
+            }
+            return BaseResultUtil.resSuccess("successfully get the projects of "+userId,projectLists );
+        }catch(Exception e) {
+            return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
+        }
+    }
+
 
     @RequestMapping(value = "/createProject", method = RequestMethod.POST)
     public ResultEntity createProject(@RequestBody String groupInfo) {
