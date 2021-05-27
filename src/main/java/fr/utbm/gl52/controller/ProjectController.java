@@ -118,6 +118,10 @@ public class ProjectController {
             project.setSupervisorId(supervisor.getUserId());
             project.setProjectTitle(title);
             project.setSubjectId(subjectId);
+            WorkEntity work = new WorkEntity();
+            work.setProjectId(project.getProjectId());
+            work.setUserId(supervisor.getUserId());
+            workRepository.save(work);
             projectRepository.save(project);
             return BaseResultUtil.resSuccess("successfully create a group in project " , project);
         } catch (Exception e) {
