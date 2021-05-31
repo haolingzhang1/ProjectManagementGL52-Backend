@@ -34,7 +34,7 @@ public class LoginController {
             UserEntity user=userService.getUserByEmail(compte);
             String a_password= Md5Util.convertMD5(password);
             if(a_password.equals(b_password)) {
-                return BaseResultUtil.resSuccess("successful log in! ",user.getType());
+                return BaseResultUtil.resSuccess("successful log in! ","type:"+user.getType()+" userId : "+user.getUserId());
             }else{
                 return BaseResultUtil.resSuccess("wrong password !",null);
             }

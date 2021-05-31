@@ -3,9 +3,7 @@ package fr.utbm.gl52.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import fr.utbm.gl52.entity.*;
-import fr.utbm.gl52.repository.ProjectRepository;
-import fr.utbm.gl52.repository.UserRepository;
-import fr.utbm.gl52.repository.WorkRepository;
+import fr.utbm.gl52.repository.*;
 import fr.utbm.gl52.services.ProjectService;
 import fr.utbm.gl52.services.UserService;
 import fr.utbm.gl52.services.WorkService;
@@ -14,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @CrossOrigin
@@ -31,6 +30,9 @@ public class ProjectController {
     ProjectRepository projectRepository;
 
     @Autowired
+    MeetingRepository meetingRepository;
+
+    @Autowired
     ProjectService projectService;
 
     @Autowired
@@ -39,6 +41,8 @@ public class ProjectController {
     @Autowired
     WorkRepository workRepository;
 
+    @Autowired
+    DocumentRepository documentRepository;
 
     //add student lists to project
     @RequestMapping(value = "/createGroup", method = {RequestMethod.POST, RequestMethod.GET})
@@ -77,16 +81,52 @@ public class ProjectController {
         }
     }
 
+    //for students
     @RequestMapping(value = "/getProjectByUser", method = RequestMethod.GET)
     public ResultEntity getProjectByUser(@RequestParam("userId") Long userId){
         try{
+            HashMap<String,Object> saveResult = new HashMap<>();
             List<WorkEntity> works = workService.getWorkByUser(userId);
             List<ProjectEntity> projectLists = new ArrayList<>();
+            List<DocumentEntity> documentLists = new ArrayList<>();
+            List<List<MeetingEntity>> meetingLists = new ArrayList<>();
             for(WorkEntity work:works){
-               ProjectEntity project =  projectRepository.findById(work.getProjectId()).get();
+                ProjectEntity project =  projectRepository.findById(work.getProjectId()).get();
+                List<MeetingEntity> meeting = meetingRepository.getMeetingByProject(work.getProjectId());
+                DocumentEntity document = documentRepository.getDocumentByProject(work.getProjectId());
                 projectLists.add(project);
+                meetingLists.add(meeting);
+                documentLists.add(document);
+
             }
-            return BaseResultUtil.resSuccess("successfully get the projects of "+userId,projectLists );
+            saveResult.put("project : ",projectLists);
+            saveResult.put("meeting : ",meetingLists);
+            saveResult.put("document : ",documentLists);
+            return BaseResultUtil.resSuccess("successfully get the projects of "+userId,saveResult );
+        }catch(Exception e) {
+            return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
+        }
+    }
+
+    //for supervisor
+    @RequestMapping(value = "/getProjectBySupervisor", method = RequestMethod.GET)
+    public ResultEntity getProjectBySupervisor(@RequestParam("supervisorId") Long userId){
+        try{
+            HashMap<String,Object> saveResult = new HashMap<>();
+            List<ProjectEntity> projectLists = projectRepository.getWorkBySupervisor(userId);
+            List<DocumentEntity> documentLists = new ArrayList<>();
+            List<List<MeetingEntity>> meetingLists = new ArrayList<>();
+            for(ProjectEntity project:projectLists){
+                List<MeetingEntity> meeting = meetingRepository.getMeetingByProject(project.getProjectId());
+                DocumentEntity document = documentRepository.getDocumentByProject(project.getProjectId());
+                meetingLists.add(meeting);
+                documentLists.add(document);
+
+            }
+            saveResult.put("project : ",projectLists);
+            saveResult.put("meeting : ",meetingLists);
+            saveResult.put("document : ",documentLists);
+            return BaseResultUtil.resSuccess("successfully get the projects of "+userId,saveResult );
         }catch(Exception e) {
             return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
         }

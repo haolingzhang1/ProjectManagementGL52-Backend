@@ -10,4 +10,5 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Autowired
     MeetingRepository meetingRepository;
+
 }
