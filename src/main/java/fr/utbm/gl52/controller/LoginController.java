@@ -1,5 +1,6 @@
 package fr.utbm.gl52.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import fr.utbm.gl52.entity.ResultEntity;
 import fr.utbm.gl52.entity.UserEntity;
 import fr.utbm.gl52.services.UserService;
@@ -34,7 +35,11 @@ public class LoginController {
             UserEntity user=userService.getUserByEmail(compte);
             String a_password= Md5Util.convertMD5(password);
             if(a_password.equals(b_password)) {
-                return BaseResultUtil.resSuccess("successful log in! ","type:"+user.getType()+" userId : "+user.getUserId());
+                JSONObject obj = new JSONObject();
+                obj.put("type", user.getType());
+                obj.put("userId", user.getUserId());
+                obj.put("userName", user.getFirstName() + " " + user.getLastName());
+                return BaseResultUtil.resSuccess("successful log in! ",obj);
             }else{
                 return BaseResultUtil.resSuccess("wrong password !",null);
             }
