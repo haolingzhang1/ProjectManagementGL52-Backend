@@ -30,6 +30,9 @@ public class ProjectController {
     ProjectRepository projectRepository;
 
     @Autowired
+    SubjectRepository subjectRepository;
+
+    @Autowired
     MeetingRepository meetingRepository;
 
     @Autowired
@@ -87,22 +90,38 @@ public class ProjectController {
         try{
             HashMap<String,Object> saveResult = new HashMap<>();
             List<WorkEntity> works = workService.getWorkByUser(userId);
-            List<ProjectEntity> projectLists = new ArrayList<>();
-            List<DocumentEntity> documentLists = new ArrayList<>();
-            List<List<MeetingEntity>> meetingLists = new ArrayList<>();
+            List<JSONObject> projectLists = new ArrayList<>();
             for(WorkEntity work:works){
-                ProjectEntity project =  projectRepository.findById(work.getProjectId()).get();
-                List<MeetingEntity> meeting = meetingRepository.getMeetingByProject(work.getProjectId());
-                DocumentEntity document = documentRepository.getDocumentByProject(work.getProjectId());
-                projectLists.add(project);
-                meetingLists.add(meeting);
-                documentLists.add(document);
+                ProjectEntity project = projectRepository.findById(work.getProjectId()).get();
+                SubjectEntity subject = subjectRepository.findById(project.getSubjectId()).get();
+                UserEntity supervisor = userRepository.getUserById(project.getSupervisorId());
+                List<MeetingEntity> meetings = meetingRepository.getMeetingByProject(work.getProjectId());
+                List<DocumentEntity> documents = documentRepository.getDocumentByProject(work.getProjectId());
 
+                JSONObject json_subject = new JSONObject();
+                json_subject.put("id", subject.getSubjectId());
+                json_subject.put("name", subject.getSubjectName());
+                json_subject.put("description", subject.getSubjectDescription());
+
+                JSONObject json_supervisor = new JSONObject();
+                json_supervisor.put("id", supervisor.getUserId());
+                json_supervisor.put("name", supervisor.getFirstName() + " " + supervisor.getLastName());
+                json_supervisor.put("email", supervisor.getEmail());
+
+                JSONObject json_project = new JSONObject();
+                json_project.put("id", project.getProjectId());
+                json_project.put("title", project.getProjectTitle());
+                json_project.put("subject", json_subject);
+                json_project.put("supervisor", json_supervisor);
+                json_project.put("meetings", meetings);
+                json_project.put("documents", documents);
+                json_project.put("grade", project.getProjectGrade());
+                json_project.put("comments", project.getProjectComments());
+                json_project.put("students", null);
+
+                projectLists.add(json_project);
             }
-            saveResult.put("project : ",projectLists);
-            saveResult.put("meeting : ",meetingLists);
-            saveResult.put("document : ",documentLists);
-            return BaseResultUtil.resSuccess("successfully get the projects of "+userId,saveResult );
+            return BaseResultUtil.resSuccess("successfully got the projects of user "+userId, projectLists);
         }catch(Exception e) {
             return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
         }
@@ -114,19 +133,37 @@ public class ProjectController {
         try{
             HashMap<String,Object> saveResult = new HashMap<>();
             List<ProjectEntity> projectLists = projectRepository.getWorkBySupervisor(userId);
-            List<DocumentEntity> documentLists = new ArrayList<>();
-            List<List<MeetingEntity>> meetingLists = new ArrayList<>();
+            List<JSONObject> projectJSONLists = new ArrayList<>();
             for(ProjectEntity project:projectLists){
-                List<MeetingEntity> meeting = meetingRepository.getMeetingByProject(project.getProjectId());
-                DocumentEntity document = documentRepository.getDocumentByProject(project.getProjectId());
-                meetingLists.add(meeting);
-                documentLists.add(document);
+                SubjectEntity subject = subjectRepository.findById(project.getSubjectId()).get();
+                UserEntity supervisor = userRepository.getUserById(project.getSupervisorId());
+                List<MeetingEntity> meetings = meetingRepository.getMeetingByProject(project.getProjectId());
+                List<DocumentEntity> documents = documentRepository.getDocumentByProject(project.getProjectId());
 
+                JSONObject json_subject = new JSONObject();
+                json_subject.put("id", subject.getSubjectId());
+                json_subject.put("name", subject.getSubjectName());
+                json_subject.put("description", subject.getSubjectDescription());
+
+                JSONObject json_supervisor = new JSONObject();
+                json_supervisor.put("id", supervisor.getUserId());
+                json_supervisor.put("name", supervisor.getFirstName() + " " + supervisor.getLastName());
+                json_supervisor.put("email", supervisor.getEmail());
+
+                JSONObject json_project = new JSONObject();
+                json_project.put("id", project.getProjectId());
+                json_project.put("title", project.getProjectTitle());
+                json_project.put("subject", json_subject);
+                json_project.put("supervisor", json_supervisor);
+                json_project.put("meetings", meetings);
+                json_project.put("documents", documents);
+                json_project.put("grade", project.getProjectGrade());
+                json_project.put("comments", project.getProjectComments());
+                json_project.put("students", null);
+
+                projectJSONLists.add(json_project);
             }
-            saveResult.put("project : ",projectLists);
-            saveResult.put("meeting : ",meetingLists);
-            saveResult.put("document : ",documentLists);
-            return BaseResultUtil.resSuccess("successfully get the projects of "+userId,saveResult );
+            return BaseResultUtil.resSuccess("successfully get the projects supervised by user "+userId, projectJSONLists);
         }catch(Exception e) {
             return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
         }

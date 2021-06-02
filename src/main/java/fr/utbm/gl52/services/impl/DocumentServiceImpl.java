@@ -6,6 +6,8 @@ import fr.utbm.gl52.services.DocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DocumentServiceImpl implements DocumentService {
 
@@ -14,7 +16,7 @@ public class DocumentServiceImpl implements DocumentService {
 
 
     @Override
-    public DocumentEntity getDocumentByProject(Long projectId) {
+    public List<DocumentEntity> getDocumentByProject(Long projectId) {
         return documentRepository.getDocumentByProject(projectId);
     }
 }

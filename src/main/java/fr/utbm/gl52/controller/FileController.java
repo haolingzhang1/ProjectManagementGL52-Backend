@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.SocketException;
 import java.util.HashMap;
+import java.util.List;
 
 @Slf4j
 @CrossOrigin
@@ -56,8 +57,9 @@ public class FileController {
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
     public ResponseEntity<byte[]> getImage(@RequestParam("projectId")Long projectId) {
-        DocumentEntity document = documentService.getDocumentByProject(projectId);
-        return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).body(document.getDocumentContent());
+        List<DocumentEntity> document = documentService.getDocumentByProject(projectId);
+        //return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).body(document.getDocumentContent());
+        return null;
     }
 
 }
