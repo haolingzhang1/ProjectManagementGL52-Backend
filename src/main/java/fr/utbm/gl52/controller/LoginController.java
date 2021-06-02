@@ -39,9 +39,9 @@ public class LoginController {
                 obj.put("type", user.getType());
                 obj.put("userId", user.getUserId());
                 obj.put("userName", user.getFirstName() + " " + user.getLastName());
-                return BaseResultUtil.resSuccess("successful log in! ",obj);
+                return BaseResultUtil.resSuccess("successful log in!",obj);
             }else{
-                return BaseResultUtil.resSuccess("wrong password !",null);
+                return BaseResultUtil.resFailed("wrong password !",null);
             }
         }catch(Exception e) {
             return BaseResultUtil.resFailed("failed to log in！",e.getMessage());
