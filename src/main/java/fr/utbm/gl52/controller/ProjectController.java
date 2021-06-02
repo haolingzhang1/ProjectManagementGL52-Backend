@@ -142,6 +142,11 @@ public class ProjectController {
             String title = jsonParams.getString("title");
             Long subjectId = Long.parseLong(jsonParams.getString("subjectId"));
             String supervisorEmail = jsonParams.getString("supervisorEmail");
+            UserEntity supervisor = userService.getUserByEmail(supervisorEmail);
+            project.setSupervisorId(supervisor.getUserId());
+            project.setProjectTitle(title);
+            project.setSubjectId(subjectId);
+            projectRepository.save(project);
             //for every student, insert project id for them
             for (Object student : studentLists) {
                 String email = student.toString();
@@ -152,17 +157,11 @@ public class ProjectController {
                 work.setUserId(user.getUserId());
                 workRepository.save(work);
                 userRepository.save(user);
-
             }
-            UserEntity supervisor = userService.getUserByEmail(supervisorEmail);
-            project.setSupervisorId(supervisor.getUserId());
-            project.setProjectTitle(title);
-            project.setSubjectId(subjectId);
             WorkEntity work = new WorkEntity();
             work.setProjectId(project.getProjectId());
             work.setUserId(supervisor.getUserId());
             workRepository.save(work);
-            projectRepository.save(project);
             return BaseResultUtil.resSuccess("successfully create a group in project " , project);
         } catch (Exception e) {
             return BaseResultUtil.resFailed("failed to create a group！" , e.getMessage());
