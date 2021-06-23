@@ -117,13 +117,13 @@ public class ProjectController {
                 json_project.put("documents", documents);
                 json_project.put("grade", project.getProjectGrade());
                 json_project.put("comments", project.getProjectComments());
-                json_project.put("students", null);
+                json_project.put("students", userRepository.getUsersOfProject(project.getProjectId()));
 
                 projectLists.add(json_project);
             }
             return BaseResultUtil.resSuccess("successfully got the projects of user "+userId, projectLists);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
+            return BaseResultUtil.resFailed("failed to get the projects of user "+userId,null);
         }
     }
 
@@ -159,13 +159,13 @@ public class ProjectController {
                 json_project.put("documents", documents);
                 json_project.put("grade", project.getProjectGrade());
                 json_project.put("comments", project.getProjectComments());
-                json_project.put("students", null);
+                json_project.put("students", userRepository.getUsersOfProject(project.getProjectId()));
 
                 projectJSONLists.add(json_project);
             }
             return BaseResultUtil.resSuccess("successfully get the projects supervised by user "+userId, projectJSONLists);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to get the projects of "+userId,null);
+            return BaseResultUtil.resFailed("failed to get the projects supervised by user "+userId,null);
         }
     }
 
