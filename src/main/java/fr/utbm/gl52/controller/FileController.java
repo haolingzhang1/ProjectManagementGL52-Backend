@@ -1,5 +1,6 @@
 package fr.utbm.gl52.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import fr.utbm.gl52.entity.DocumentEntity;
 import fr.utbm.gl52.entity.ResultEntity;
 import fr.utbm.gl52.repository.DocumentRepository;
@@ -45,9 +46,9 @@ public class FileController {
         }
 
         // Generate a new file name based on the timestamp
-        String fileName = System.currentTimeMillis()+'_'+file.getOriginalFilename();
+        String fileName = String.valueOf(System.currentTimeMillis()) + "_" + file.getOriginalFilename();
         byte[] b = file.getBytes();
-        DocumentEntity document=new DocumentEntity(fileName,b,projectId);
+        DocumentEntity document = new DocumentEntity(fileName, b, projectId);
 
         String path = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/images/download/"+fileName;
         documentRepository.save(document);
@@ -61,6 +62,19 @@ public class FileController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + document.getDocumentTitle())
                 .contentType(MediaType.MULTIPART_FORM_DATA)
                 .body(document.getDocumentContent());
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public ResultEntity removeDocument(@RequestBody String documentParam) {
+        try {
+            JSONObject jsonParams = JSONObject.parseObject(documentParam);
+            Long documentId = jsonParams.getLong("documentId");
+
+            documentRepository.deleteById(documentId);
+            return BaseResultUtil.resSuccess("Successfully deleted the document.", documentId);
+        } catch (Exception e) {
+            return BaseResultUtil.resFailed("failed to delete the document!", e.getMessage());
+        }
     }
 
 }

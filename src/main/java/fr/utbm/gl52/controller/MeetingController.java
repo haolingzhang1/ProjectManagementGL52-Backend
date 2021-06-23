@@ -70,8 +70,11 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/remove", method = RequestMethod.POST)
-    public ResultEntity removeMeeting(@RequestBody Long meetingId) {
+    public ResultEntity removeMeeting(@RequestBody String meetingParam) {
         try {
+            JSONObject jsonParams = JSONObject.parseObject(meetingParam);
+            Long meetingId = jsonParams.getLong("meetingId");
+
             meetingRepository.deleteById(meetingId);
             return BaseResultUtil.resSuccess("Successfully deleted the meeting.", meetingId);
         } catch (Exception e) {
