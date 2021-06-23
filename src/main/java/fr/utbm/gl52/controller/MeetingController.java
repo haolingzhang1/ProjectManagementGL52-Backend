@@ -30,7 +30,7 @@ public class MeetingController {
             JSONObject jsonParams = JSONObject.parseObject(meetingParam);
             Long projectId = jsonParams.getLong("projectId");
             Date meetingStart = jsonParams.getDate("meetingStart");
-            Date meetingEnd = jsonParams.getDate("meetingStart");
+            Date meetingEnd = jsonParams.getDate("meetingEnd");
             Long supervisorId = projectRepository.getProject(projectId).getSupervisorId();
 
             MeetingEntity meetingEntity = new MeetingEntity();
@@ -66,6 +66,16 @@ public class MeetingController {
             return BaseResultUtil.resSuccess("successfully choose the meeting",meeting);
         } catch (Exception e) {
             return BaseResultUtil.resFailed("failed to choose meetings!" , e.getMessage());
+        }
+    }
+
+    @RequestMapping(value = "/remove", method = RequestMethod.POST)
+    public ResultEntity removeMeeting(@RequestBody Long meetingId) {
+        try {
+            meetingRepository.deleteById(meetingId);
+            return BaseResultUtil.resSuccess("Successfully deleted the meeting.", meetingId);
+        } catch (Exception e) {
+            return BaseResultUtil.resFailed("failed to delete the meeting!", e.getMessage());
         }
     }
 }
