@@ -29,7 +29,7 @@ public class LoginController {
             String compte=request.getParameter("compte");
             String password=request.getParameter("password");
             if(password.isEmpty()||compte.isEmpty()){
-                return BaseResultUtil.resSuccess("please enter both compte and password!",null);
+                return BaseResultUtil.resFailed("please enter both compte and password!",null);
             }
             String b_password= userService.getUserPasswordByEmail(compte);
             UserEntity user=userService.getUserByEmail(compte);

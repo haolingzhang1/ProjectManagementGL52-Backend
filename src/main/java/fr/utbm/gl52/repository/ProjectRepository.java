@@ -13,5 +13,8 @@ public interface ProjectRepository extends JpaRepository<ProjectEntity, Long>, J
 
     @Query(value = "select * from PROJECT where SUPERVISOR_ID = ?1", nativeQuery = true)
     List<ProjectEntity> getWorkBySupervisor(Long supervisorId);
+
+    @Query(value = "select * from PROJECT where PROJECT_ID = ?1", nativeQuery = true)
+    ProjectEntity getProject(Long projectId);
 }
 

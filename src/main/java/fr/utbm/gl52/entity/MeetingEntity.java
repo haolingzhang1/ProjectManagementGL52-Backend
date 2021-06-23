@@ -15,7 +15,7 @@ import java.util.Date;
 @Setter
 @Data
 @Entity
-@Table(name = "MEEETING")
+@Table(name = "MEETING")
 public class MeetingEntity implements Serializable {
 
     @Id
