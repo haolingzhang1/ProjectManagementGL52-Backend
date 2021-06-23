@@ -123,7 +123,7 @@ public class ProjectController {
             }
             return BaseResultUtil.resSuccess("successfully got the projects of user "+userId, projectLists);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to get the projects of user "+userId,null);
+            return BaseResultUtil.resFailed("failed to get the projects of user "+userId,e.getMessage());
         }
     }
 
@@ -165,7 +165,7 @@ public class ProjectController {
             }
             return BaseResultUtil.resSuccess("successfully get the projects supervised by user "+userId, projectJSONLists);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to get the projects supervised by user "+userId,null);
+            return BaseResultUtil.resFailed("failed to get the projects supervised by user "+userId,e.getMessage());
         }
     }
 

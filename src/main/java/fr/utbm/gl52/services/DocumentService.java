@@ -7,4 +7,5 @@ import java.util.List;
 public interface DocumentService {
     List<DocumentEntity> getDocumentByProject(Long projectId);
 
+    DocumentEntity getDocument(Long documentId);
 }

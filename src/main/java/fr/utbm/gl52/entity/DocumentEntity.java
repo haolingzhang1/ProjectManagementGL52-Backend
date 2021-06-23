@@ -31,7 +31,7 @@ public class DocumentEntity implements Serializable {
     @Column(name = "DOCUMENT_ID", nullable = false)
     private Long documentId;
 
-    @Column(name = "DOCUEMENT_TITLE", nullable = false)
+    @Column(name = "DOCUMENT_TITLE", nullable = false)
     private String documentTitle;
 
     @Column(name = "DOCUMENT_TYPE")
@@ -50,6 +50,16 @@ public class DocumentEntity implements Serializable {
 
     @Column(name = "PROJECT_ID", nullable = false)
     private Long projectId;
+
+    public DocumentEntity() {
+        this.documentId = 0L;
+        this.documentTitle = "";
+        this.documentType = null;
+        this.documentContent = null;
+        this.documentCreation = new Date();;
+        this.documentModification = new Date();
+        this.projectId = 0L;
+    }
 
     public DocumentEntity(String documentTitle, byte[] documentContent,Long projectId) {
         this.documentTitle = documentTitle;

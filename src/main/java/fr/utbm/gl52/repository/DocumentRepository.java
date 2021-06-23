@@ -16,4 +16,7 @@ public interface DocumentRepository extends JpaRepository<DocumentEntity, Long>,
 
     @Query(value = "select * from DOCUMENT where PROJECT_ID = ?1", nativeQuery = true)
     List<DocumentEntity> getDocumentByProject(Long projectId);
+
+    @Query(value = "select * from DOCUMENT where DOCUMENT_ID = ?1", nativeQuery = true)
+    DocumentEntity getDocument(Long documentId);
 }

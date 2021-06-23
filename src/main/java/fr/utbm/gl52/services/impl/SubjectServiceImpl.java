@@ -25,7 +25,7 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     @Override
-    public List<SubjectEntity> searchSujbects(){
+    public List<SubjectEntity> searchSubjects(){
         return subjectRepository.searchSujbects();
     }
 

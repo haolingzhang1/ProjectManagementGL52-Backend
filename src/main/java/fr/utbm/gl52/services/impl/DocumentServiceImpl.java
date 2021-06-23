@@ -19,4 +19,9 @@ public class DocumentServiceImpl implements DocumentService {
     public List<DocumentEntity> getDocumentByProject(Long projectId) {
         return documentRepository.getDocumentByProject(projectId);
     }
+
+    @Override
+    public DocumentEntity getDocument(Long documentId) {
+        return documentRepository.getDocument(documentId);
+    }
 }

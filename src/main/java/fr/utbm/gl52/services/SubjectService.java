@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface SubjectService {
     public SubjectEntity createSubject(String subjectName, String subjectDescription);
-    public List<SubjectEntity> searchSujbects();
+    public List<SubjectEntity> searchSubjects();
 
 }

@@ -46,7 +46,7 @@ public class SubjectController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ResultEntity searchSubjectLists() {
         try {
-           List<SubjectEntity> subjectLists= subjectService.searchSujbects();
+           List<SubjectEntity> subjectLists= subjectService.searchSubjects();
             return BaseResultUtil.resSuccess("successfully search the subjects! ",subjectLists);
         } catch (Exception e) {
             return BaseResultUtil.resFailed("failed to find list of subjects！" , e.getMessage());

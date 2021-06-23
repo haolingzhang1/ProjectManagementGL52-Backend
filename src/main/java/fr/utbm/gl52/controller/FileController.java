@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,26 +41,26 @@ public class FileController {
     public ResultEntity upload(@RequestParam("file") MultipartFile file, HttpServletRequest request,
                          @RequestParam("projectId") Long projectId) throws IOException {
         if(file.isEmpty()){
-            return null;
+            return BaseResultUtil.resFailed("Empty files not accepted",null);
         }
 
-        //根据时间戳产生新的文件名
-        String fileName = System.currentTimeMillis()+file.getOriginalFilename();
-
-        byte[] b=file.getBytes();
-
+        // Generate a new file name based on the timestamp
+        String fileName = System.currentTimeMillis()+'_'+file.getOriginalFilename();
+        byte[] b = file.getBytes();
         DocumentEntity document=new DocumentEntity(fileName,b,projectId);
 
-        String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/images/download/"+fileName;
+        String path = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/images/download/"+fileName;
         documentRepository.save(document);
         return BaseResultUtil.resSuccess("successfully upload the file",path);
     }
 
     @RequestMapping(value = "/download", method = RequestMethod.GET)
-    public ResponseEntity<byte[]> getImage(@RequestParam("projectId")Long projectId) {
-        List<DocumentEntity> document = documentService.getDocumentByProject(projectId);
-        //return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).body(document.getDocumentContent());
-        return null;
+    public ResponseEntity<byte[]> getImage(@RequestParam("documentId") Long documentId) {
+        DocumentEntity document = documentService.getDocument(documentId);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + document.getDocumentTitle())
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .body(document.getDocumentContent());
     }
 
 }
