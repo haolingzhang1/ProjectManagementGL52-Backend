@@ -1,5 +1,6 @@
 package fr.utbm.gl52.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import fr.utbm.gl52.entity.ProjectEntity;
 import fr.utbm.gl52.entity.ResultEntity;
 import fr.utbm.gl52.services.ProjectService;
@@ -15,25 +16,28 @@ public class EvaluationController {
     @Autowired
     ProjectService projectService;
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public ResultEntity addEvaluation(@RequestParam("comments") String comments,
-                                      @RequestParam("grade") Long grade,
-                                      @RequestParam("projectId") Long projectId){
-        try{
-            ProjectEntity project= projectService.addEvaluation(projectId,grade,comments);
-            return BaseResultUtil.resSuccess("successfully add the evaluation",project);
-        }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to add the evaluation！",null);
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public ResultEntity addEvaluation(@RequestBody String evalParam){
+        try {
+            JSONObject jsonParams = JSONObject.parseObject(evalParam);
+            Long projectId = jsonParams.getLong("projectId");
+            Long grade = jsonParams.getLong("grade");
+            String comments = jsonParams.getString("comments");
+
+            ProjectEntity project = projectService.addEvaluation(projectId, grade, comments);
+            return BaseResultUtil.resSuccess("Successfully added the evaluation.", project);
+        } catch(Exception e) {
+            return BaseResultUtil.resFailed("Failed to add the evaluation!", e.getMessage());
         }
     }
 
-    @RequestMapping(value = "/consulter", method = RequestMethod.GET)
+    @RequestMapping(value = "/get", method = RequestMethod.GET)
     public ResultEntity consulterEvaluation(@RequestParam("projectId") Long projectId){
         try{
-            ProjectEntity project= projectService.consulterEvaluation(projectId);
-            return BaseResultUtil.resSuccess("successfully search the evaluation",project);
+            ProjectEntity project = projectService.consulterEvaluation(projectId);
+            return BaseResultUtil.resSuccess("successfully found the evaluation of this project", project);
         }catch(Exception e) {
-            return BaseResultUtil.resFailed("failed to search the evaluation！",null);
+            return BaseResultUtil.resFailed("failed to find an evaluation for this project!",null);
         }
     }
 }
